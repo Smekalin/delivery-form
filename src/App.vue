@@ -25,7 +25,6 @@ export default Vue.extend({
   .app__main-container {
     width: 100%;
     max-width: 1200px;
-    min-width: 320px;
   }
 }
 </style>
