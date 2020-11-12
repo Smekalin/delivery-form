@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <div class="app__container"></div>
+    <div class="app__main-container">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -27,7 +29,7 @@ body {
   display: flex;
   justify-content: center;
 
-  .app__container {
+  .app__main-container {
     width: 100%;
     max-width: 1200px;
     min-width: 320px;
