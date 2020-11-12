@@ -17,7 +17,7 @@
             v-decorator="[
               'fullName',
               {
-                rules: nameRule,
+                rules: [requiredRule, nameRule],
               },
             ]"
           >
@@ -31,7 +31,7 @@
             v-decorator="[
               'phone',
               {
-                rules: requiredRule,
+                rules: [requiredRule, phoneRule],
               },
             ]"
           >
@@ -46,7 +46,7 @@
           v-decorator="[
             'address',
             {
-              rules: requiredRule,
+              rules: [requiredRule],
             },
           ]"
         >
@@ -54,7 +54,16 @@
       </a-form-item>
 
       <a-form-item label="Комментарий">
-        <a-textarea :rows="4" size="large" v-decorator="['comment']">
+        <a-textarea
+          :rows="4"
+          size="large"
+          v-decorator="[
+            'comment',
+            {
+              rules: [requiredRule],
+            },
+          ]"
+        >
         </a-textarea>
       </a-form-item>
 
@@ -73,6 +82,7 @@
 import Vue from 'vue';
 import { WrappedFormUtils } from 'ant-design-vue/types/form/form';
 import { mask } from 'vue-the-mask';
+import { showSuccessMessage } from '@/helpers';
 
 const validateName = (
   rule: object[],
@@ -89,7 +99,18 @@ const validateName = (
     callback();
     return;
   } else {
-    callback('Поле обязательно для заполнения');
+    callback();
+  }
+};
+
+const validatePhone = (
+  rule: object[],
+  value: string,
+  callback: (str?: string) => void,
+) => {
+  if (!value) return callback();
+  if (value && value.length < 18) {
+    return callback('Введите номер телефона полностью');
   }
 };
 
@@ -102,41 +123,25 @@ export default Vue.extend({
       required: boolean;
       message: string;
       validator?: Function;
-    }[];
-    nameRule: object[];
+    };
+    nameRule: { validator?: Function };
+    phoneRule: { validator?: Function };
   } {
     return {
       form: this.$form.createForm(this, { name: 'authForm' }),
-      requiredRule: [{ required: true, message: 'Обязательно для заполнения' }],
-      nameRule: [{ validator: validateName }],
+      requiredRule: { required: true, message: 'Обязательно для заполнения' },
+      nameRule: { validator: validateName },
+      phoneRule: { validator: validatePhone },
     };
   },
 
   methods: {
-    //   const validatePhone = (rule: any, value: any, callback: any) => {
-    //   if(value ){
-    //     const countryName = form.getFieldValue('country');
-    //     const country = CountryList.getCode(countryName);
-    //     const phoneNumber = parsePhoneNumberFromString(value, country as CountryCode);
-    //     console.log(form.getFieldValue('country'));
-    //     if (countryName && phoneNumber && phoneNumber.isValid()) {
-    //       updatePhonePrefix(prefix.concat(phoneNumber.countryCallingCode as string));
-    //       callback();
-    //     } else {
-    //       callback(`Phone number is not valid for ${countryName}`);
-    //     }
-    //   }
-    //   else {
-    //     callback();
-    //   }
-    // };
-
     handleSubmit(e: Event) {
       e.preventDefault();
       this.form.validateFields(
         (err, values: { fullName?: string; phone: string }) => {
           if (!err) {
-            console.log('values', values);
+            showSuccessMessage('Запрос успешно отправлен');
           }
         },
       );
