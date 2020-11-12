@@ -1,6 +1,6 @@
 <template>
   <button :class="classList" :disabled="disabled" @click="$emit('click')">
-    {{ label }}
+    <slot></slot>
   </button>
 </template>
 
@@ -9,10 +9,6 @@ import Vue from 'vue';
 
 export default Vue.extend({
   props: {
-    label: {
-      type: String,
-      required: true,
-    },
     disabled: {
       type: Boolean,
       default: false,
