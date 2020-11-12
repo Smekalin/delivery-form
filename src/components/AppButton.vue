@@ -9,6 +9,10 @@ import Vue from 'vue';
 
 export default Vue.extend({
   props: {
+    htmlType: {
+      type: String as () => 'submit' | 'button',
+      default: 'button',
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -35,6 +39,7 @@ export default Vue.extend({
   overflow: hidden;
   text-overflow: ellipsis;
 
+  &:focus,
   &:hover {
     background-color: rgb(1, 129, 188);
   }
