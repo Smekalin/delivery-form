@@ -1,5 +1,13 @@
 {
   "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
+    "declaration": false,
+    "strictNullChecks": false,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "resolveJsonModule": true,
+    "checkJs": false,
     "target": "esnext",
     "module": "esnext",
     "strict": true,
