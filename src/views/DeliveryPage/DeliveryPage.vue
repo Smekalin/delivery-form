@@ -1,11 +1,13 @@
 <template>
   <div class="delivery-page">
     <h1>Выберите способ доставки</h1>
-    <a-tabs class="delivery-page__tabs" type="card" default-active-key="1">
+    <a-tabs class="delivery-page__tabs" type="card" default-active-key="2">
       <a-tab-pane key="1" tab="Доставка">
         <app-delivery-form> </app-delivery-form>
       </a-tab-pane>
-      <a-tab-pane key="2" tab="Самовывоз"> Content of Tab Pane 2 </a-tab-pane>
+      <a-tab-pane key="2" tab="Самовывоз">
+        <div ref="map" style="width: 100%; height: 500px"></div>
+      </a-tab-pane>
     </a-tabs>
   </div>
 </template>
@@ -13,9 +15,51 @@
 <script lang="ts">
 import Vue from 'vue';
 
+import { ymapMarker, loadYmap } from 'vue-yandex-maps';
+import { YandexMapPersonal } from '@/helpers';
+
 export default Vue.extend({
-  data() {
-    return {};
+  components: {
+    // ymapMarker,
+  },
+
+  data(): {
+    settings: { [key: string]: string | number | boolean };
+    map: any;
+  } {
+    return {
+      settings: {
+        apiKey: new YandexMapPersonal().apiKey,
+      },
+      map: null,
+    };
+  },
+
+  async mounted() {
+    await loadYmap({ ...this.settings });
+    if (window.ymaps) {
+      window.ymaps.ready(() => {
+        this.map = new window.ymaps.Map(this.$refs.map, {
+          center: [55.76, 37.64],
+          zoom: 7,
+          scrollZoom: false,
+        });
+        this.initMap();
+      });
+    }
+  },
+
+  methods: {
+    initMap() {
+      this.map.behaviors.disable('scrollZoom');
+      const myGeoObject = new window.ymaps.GeoObject({
+        geometry: {
+          type: 'Point', // тип геометрии - точка
+          coordinates: [55.8, 37.8], // координаты точки
+        },
+      });
+      this.map.geoObjects.add(myGeoObject);
+    },
   },
 });
 </script>
@@ -25,6 +69,7 @@ export default Vue.extend({
   padding: 50px 0px;
   .ant-tabs-bar {
     margin-bottom: 0;
+    border: none;
   }
 
   &__tabs {

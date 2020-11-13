@@ -138,13 +138,11 @@ export default Vue.extend({
   methods: {
     handleSubmit(e: Event) {
       e.preventDefault();
-      this.form.validateFields(
-        (err, values: { fullName?: string; phone: string }) => {
-          if (!err) {
-            showSuccessMessage('Запрос успешно отправлен');
-          }
-        },
-      );
+      this.form.validateFields((err) => {
+        if (!err) {
+          showSuccessMessage('Запрос успешно отправлен');
+        }
+      });
     },
   },
 });
