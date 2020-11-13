@@ -7,10 +7,17 @@ export class YandexMapPersonal {
 }
 
 export function createPoint(coordinates: [number, number]) {
-  return new window.ymaps.GeoObject({
-    geometry: {
-      type: 'Point',
-      coordinates,
+  return new window.ymaps.GeoObject(
+    {
+      geometry: {
+        type: 'Point',
+        coordinates,
+      },
     },
-  });
+    {
+      iconLayout: 'default#image',
+      iconImageHref: 'geoPoint.png',
+      iconImageSize: [50, 50],
+    },
+  );
 }
