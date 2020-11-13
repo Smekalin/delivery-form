@@ -5,3 +5,12 @@ export class YandexMapPersonal {
     return this._apiKey;
   }
 }
+
+export function createPoint(coordinates: [number, number]) {
+  return new window.ymaps.GeoObject({
+    geometry: {
+      type: 'Point',
+      coordinates,
+    },
+  });
+}

@@ -16,7 +16,8 @@
 import Vue from 'vue';
 
 import { ymapMarker, loadYmap } from 'vue-yandex-maps';
-import { YandexMapPersonal } from '@/helpers';
+import { createPoint, YandexMapPersonal } from '@/helpers';
+import { getDeliveryPointCoordinates } from '@/api/delivery';
 
 export default Vue.extend({
   components: {
@@ -50,15 +51,16 @@ export default Vue.extend({
   },
 
   methods: {
-    initMap() {
+    async initMap() {
       this.map.behaviors.disable('scrollZoom');
-      const myGeoObject = new window.ymaps.GeoObject({
-        geometry: {
-          type: 'Point', // тип геометрии - точка
-          coordinates: [55.8, 37.8], // координаты точки
-        },
+      const points = await getDeliveryPointCoordinates().then((res) => {
+        return res.map(createPoint);
       });
-      this.map.geoObjects.add(myGeoObject);
+
+      points.forEach((item) => {
+        this.map.geoObjects.add(item);
+      });
+      this.map.setBounds(this.map.geoObjects.getBounds());
     },
   },
 });
