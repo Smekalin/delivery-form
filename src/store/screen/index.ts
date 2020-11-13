@@ -1,7 +1,8 @@
 import { Module } from 'vuex';
 import { SET_WIDTH } from './mutation-types';
 
-const state: Module<any, any> = {
+// eslint-disable-next-line
+const state: Module<any, any> = { // тут типизация должна быть
   namespaced: true,
 
   state: {

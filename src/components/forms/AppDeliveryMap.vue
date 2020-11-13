@@ -23,7 +23,8 @@ import { GeoPoint } from '@/models/GeoPoint.model';
 export default Vue.extend({
   data(): {
     settings: { [key: string]: string | number | boolean };
-    map: any;
+    // eslint-disable-next-line
+    map: any; // тут типизация должна быть, но я не писал ее, а либа без поддержки ts
     geoPoints: GeoPoint[];
   } {
     return {
