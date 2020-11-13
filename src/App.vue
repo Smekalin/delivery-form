@@ -8,8 +8,25 @@
 
 <script>
 import Vue from 'vue';
+import debounce from 'lodash.debounce';
+
 export default Vue.extend({
   name: 'App',
+  created() {
+    this.calculateMobile();
+    this.debouncedCalculateMobile = debounce(this.calculateMobile, 200);
+    window.addEventListener('resize', this.debouncedCalculateMobile);
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.debouncedCalculateMobile);
+  },
+
+  methods: {
+    calculateMobile() {
+      this.$store.dispatch('screen/setWidth', window.innerWidth);
+    },
+  },
 });
 </script>
 

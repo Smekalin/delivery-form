@@ -151,7 +151,7 @@ export default Vue.extend({
 <style lang="less">
 .app-delivery-form {
   background-color: white;
-  padding: 20px;
+  padding: 30px 20px;
 
   &__input-group {
     display: flex;

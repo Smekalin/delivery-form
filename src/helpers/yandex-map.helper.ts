@@ -1,3 +1,5 @@
+import { GeoPoint } from '@/models/GeoPoint.model';
+
 export class YandexMapPersonal {
   private _apiKey = '959b2de8-f90a-4f8a-ba8f-59260553374c';
 
@@ -6,12 +8,12 @@ export class YandexMapPersonal {
   }
 }
 
-export function createPoint(coordinates: [number, number]) {
+export function createPoint(geoPoint: GeoPoint) {
   return new window.ymaps.GeoObject(
     {
       geometry: {
         type: 'Point',
-        coordinates,
+        coordinates: geoPoint.coordinates,
       },
     },
     {
